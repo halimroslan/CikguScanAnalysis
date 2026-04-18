@@ -1365,11 +1365,20 @@
             let paddingY = geo.boxH * 0.05;
             let headerHeight = (geo.layout === '10' || geo.layout === '20') ? (geo.boxH * 0.88 * 0.3) : (geo.boxH * 0.9 * 0.2);
             
-            // Koordinat crop imej nama (Dilaras lagi ke kiri sebanyak 40% & dilebarkan)
-            let cropY = geo.boxY + paddingY + (headerHeight * 0.15); 
-            let cropH = headerHeight * 0.32; 
-            let cropX = geo.boxX + (geo.boxW * 0.07); // Mula dari garis margin
-            let cropW = geo.boxW * 0.86; // Lebarkan kawasan tangkapan
+            let cropY, cropH, cropX, cropW;
+
+            if (geo.layout === '10' || geo.layout === '20') {
+                cropY = geo.boxY + paddingY + (headerHeight * 0.22); 
+                cropH = headerHeight * 0.34; 
+                cropX = geo.boxX - (geo.boxW * 0.40); // Anjakan asal 40% ke kiri
+                cropW = geo.boxW * 1.50; 
+            } else {
+                // Layout 30 & 40: Kotak nama di bahagian bawah header
+                cropY = geo.boxY + paddingY + (headerHeight * 0.55); 
+                cropH = headerHeight * 0.45; 
+                cropX = geo.boxX - (geo.boxW * 0.40); // Anjak kiri sebanyak 40%
+                cropW = geo.boxW * 1.30; // Lebarkan kawasan tangkapan supaya tak terpotong hujung nama
+            }
 
             cropY = Math.max(0, cropY); cropX = Math.max(0, cropX);
             cropW = Math.min(cw - cropX, cropW); cropH = Math.min(ch - cropY, cropH);
