@@ -1376,8 +1376,8 @@
                 // Layout 30 & 40: Kotak nama di bahagian bawah header
                 cropY = geo.boxY + paddingY + (headerHeight * 0.55); 
                 cropH = headerHeight * 0.45; 
-                cropX = geo.boxX - (geo.boxW * 0.40); // Anjak kiri sebanyak 40%
-                cropW = geo.boxW * 1.30; // Lebarkan kawasan tangkapan supaya tak terpotong hujung nama
+                cropX = geo.boxX - (geo.boxW * 0.05); // Anjak sedikit ke kiri untuk fokus pada pangkal nama
+                cropW = geo.boxW * 0.70; // Lebar dikecilkan supaya tak masuk kotak Kelas (auto zoom in)
             }
 
             cropY = Math.max(0, cropY); cropX = Math.max(0, cropX);
