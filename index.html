@@ -386,6 +386,15 @@
                 paparAnalisisUI();
             }
         }
+        
+        function padamRekodIndividu(event, id) {
+            event.stopPropagation(); // Elak trigger fungsi buka modal bila tekan padam
+            if(confirm("Cikgu pasti mahu padam rekod individu ini?")) {
+                senaraiRekodKelas = senaraiRekodKelas.filter(r => r.id !== id);
+                simpanRekodLokal();
+                paparAnalisisUI();
+            }
+        }
 
         function kemaskiniBadgeAnalisis() {
             let badge = document.getElementById('badge-analisis');
@@ -429,9 +438,11 @@
                     <div class="inline-block bg-apple-bg px-3 py-1 rounded-full text-apple-blue font-bold text-sm">${rekod.peratus}%</div>
                 </div>
                 
-                <h4 class="font-bold text-gray-800 mb-3 px-1">Gambaran OMR Penuh</h4>
-                <div class="w-full bg-white p-2 rounded-2xl shadow-sm border border-gray-100 mb-6">
-                    <img src="${rekod.imejPenuh}" class="w-full h-auto rounded-xl object-contain bg-gray-50" />
+                <div id="bahagian-omr-penuh" class="hidden">
+                    <h4 class="font-bold text-gray-800 mb-3 px-1">Paparan Imbasan OMR</h4>
+                    <div class="w-full bg-white p-2 rounded-2xl shadow-sm border border-gray-100 mb-6">
+                        <img src="${rekod.imejPenuh}" class="w-full h-auto rounded-xl object-contain bg-gray-50" />
+                    </div>
                 </div>
                 
                 <h4 class="font-bold text-gray-800 mb-3 px-1">Perincian Item</h4>
@@ -439,6 +450,20 @@
                     ${butiranHtml}
                 </div>
             `;
+
+            // Reset logic untuk Butang Papar OMR
+            let btnPaparOMR = document.getElementById('btn-modal-omr');
+            btnPaparOMR.innerText = "Papar OMR";
+            btnPaparOMR.onclick = () => {
+                let section = document.getElementById('bahagian-omr-penuh');
+                if (section.classList.contains('hidden')) {
+                    section.classList.remove('hidden');
+                    btnPaparOMR.innerText = "Tutup OMR";
+                } else {
+                    section.classList.add('hidden');
+                    btnPaparOMR.innerText = "Papar OMR";
+                }
+            };
 
             // Assign Action untuk butang Imbas Semula
             document.getElementById('btn-modal-imbas').onclick = () => mulaImbasSemulaRekod(id);
@@ -858,14 +883,19 @@
             }
 
             container.innerHTML = senaraiRekodKelas.map(rekod => `
-                <div onclick="bukaModalRekod(${rekod.id})" class="flex items-center justify-between bg-white p-2.5 rounded-[16px] shadow-sm border border-[#e5e5ea] cursor-pointer hover:border-apple-blue hover:shadow-md transition-all active:scale-[0.98]">
-                    <div class="w-[70%] h-[56px] bg-gray-100 rounded-[8px] overflow-hidden flex items-center justify-center border border-gray-200">
-                        ${rekod.imejNama ? `<img src="${rekod.imejNama}" class="w-full h-full object-cover" style="filter: grayscale(100%) contrast(150%) brightness(110%);" />` : '<span class="text-[10px] text-gray-400 font-medium">Tiada Imej</span>'}
+                <div class="flex items-center justify-between bg-white p-2.5 rounded-[16px] shadow-sm border border-[#e5e5ea] hover:border-apple-blue hover:shadow-md transition-all relative">
+                    <div onclick="bukaModalRekod(${rekod.id})" class="flex-1 flex items-center cursor-pointer active:scale-[0.98] mr-2">
+                        <div class="w-[65%] h-[56px] bg-gray-100 rounded-[8px] overflow-hidden flex items-center justify-center border border-gray-200">
+                            ${rekod.imejNama ? `<img src="${rekod.imejNama}" class="w-full h-full object-cover" style="filter: grayscale(100%) contrast(150%) brightness(110%);" />` : '<span class="text-[10px] text-gray-400 font-medium">Tiada Imej</span>'}
+                        </div>
+                        <div class="w-[35%] flex flex-col items-end justify-center pr-2 leading-tight">
+                            <div class="text-[11px] sm:text-xs text-apple-textMuted font-semibold tracking-wider">${rekod.markah} / ${rekod.jumlah}</div>
+                            <div class="text-lg sm:text-xl font-bold text-apple-text">${rekod.peratus}%</div>
+                        </div>
                     </div>
-                    <div class="w-[28%] flex flex-col items-end justify-center pr-2 leading-tight">
-                        <div class="text-[11px] sm:text-xs text-apple-textMuted font-semibold tracking-wider">${rekod.markah} / ${rekod.jumlah}</div>
-                        <div class="text-lg sm:text-xl font-bold text-apple-text">${rekod.peratus}</div>
-                    </div>
+                    <button onclick="padamRekodIndividu(event, ${rekod.id})" class="p-2 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-full transition-all bg-gray-50/50" title="Padam Rekod Individu">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                    </button>
                 </div>
             `).join('');
         }
