@@ -214,7 +214,7 @@
             <div id="tab-imbas" class="tab-content hidden flex-col">
                 <div class="text-center mb-6 no-print">
                     <h2 class="text-3xl sm:text-4xl font-bold tracking-tight mb-2">Imbas Kertas.</h2>
-                    <p class="text-apple-textMuted font-medium text-sm px-4">Halakan kamera pada 6 titik hitam di bucu kertas. <br class="hidden sm:block">Sistem akan menangkap gambar secara automatik.</p>
+                    <p class="text-apple-textMuted font-medium text-sm px-4">Halakan petak biru pada 6 titik hitam. <br class="hidden sm:block">Sistem mengimbas gambar secara automatik.</p>
                 </div>
 
                 <div id="banner-ganti" class="hidden bg-orange-100 text-orange-800 text-sm font-bold text-center py-2 mb-4 rounded-xl border border-orange-200">
@@ -241,7 +241,7 @@
                 <div class="mt-6 flex flex-col gap-3">
                     <button onclick="tangkapDanTanda(false)" class="w-full bg-apple-blue text-white font-medium py-3.5 rounded-full shadow-apple-sm hover:bg-apple-blueHover active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                        Tangkap Manual
+                        Imbas Manual
                     </button>
                 </div>
             </div>
@@ -249,8 +249,8 @@
             <!-- TAB: ANALISIS -->
             <div id="tab-analisis" class="tab-content hidden flex-col">
                 <div class="text-center mb-8 no-print">
-                    <h2 class="text-3xl sm:text-4xl font-bold tracking-tight mb-2">Analisis Kelas.</h2>
-                    <p class="text-apple-textMuted font-medium">Rekod imbasan pelajar (Disimpan dalam pelayar).</p>
+                    <h2 class="text-3xl sm:text-4xl font-bold tracking-tight mb-2">Analisis Keseluruhan.</h2>
+                    <p class="text-apple-textMuted font-medium">Pilih analisis mengikut individu/ kelas / item.</p>
                 </div>
 
                 <div class="flex items-center justify-between mb-4 px-2">
@@ -1494,7 +1494,7 @@
         async function mulakanKamera() {
             const video = document.getElementById('kamera');
             const ind = document.getElementById('scan-indicator');
-            ind.innerText = "Mencari bingkai...";
+            ind.innerText = "Mengimbas OMR...";
             ind.classList.replace('bg-green-500/80', 'bg-black/40');
             
             isScanning = false;
