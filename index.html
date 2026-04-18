@@ -301,6 +301,9 @@
                     <button onclick="tukarTab('imbas')" class="flex-[2] bg-apple-text text-white font-medium text-lg py-4 rounded-full shadow-apple-sm hover:bg-black hover:scale-[1.02] active:scale-[0.98] transition-all duration-300">
                         Imbas Seterusnya
                     </button>
+                    <button onclick="padamRekodSemasa()" class="w-16 flex-shrink-0 bg-red-50 border border-red-200 text-red-500 flex items-center justify-center rounded-full shadow-apple-sm hover:bg-red-100 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300" title="Padam Imbasan Ini">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                    </button>
                 </div>
             </div>
 
@@ -343,6 +346,7 @@
         // Data array untuk simpan semua rekod
         let senaraiRekodKelas = [];
         let idUntukGanti = null; // ID rekod jika guru tekan Imbas Semula
+        let idRekodSemasa = null; // Menyimpan ID rekod yang baru sahaja diimbas
 
         const LOGO_TEPI_HTML = `
             <div class="absolute left-0 top-[25%] flex items-center justify-center gap-1 z-10" style="transform: translate(-50%, -50%) rotate(-90deg); transform-origin: center; white-space: nowrap;">
@@ -393,6 +397,17 @@
                 senaraiRekodKelas = senaraiRekodKelas.filter(r => r.id !== id);
                 simpanRekodLokal();
                 paparAnalisisUI();
+            }
+        }
+
+        function padamRekodSemasa() {
+            if (idRekodSemasa) {
+                if(confirm("Cikgu pasti mahu padam data imbasan ini? Data tidak akan disimpan ke Analisis.")) {
+                    senaraiRekodKelas = senaraiRekodKelas.filter(r => r.id !== idRekodSemasa);
+                    simpanRekodLokal();
+                    idRekodSemasa = null;
+                    tukarTab('imbas');
+                }
             }
         }
 
@@ -1261,7 +1276,7 @@
             let paperBrightness = highestAvg || 200;
             if (paperBrightness < 90) return false;
 
-            let darkThreshold = paperBrightness * 0.75, requiredDarkPixelsRatio = 0.38; 
+            let darkThreshold = paperBrightness * 0.75, requiredDarkPixelsRatio = 0.23; 
             let titikUjian = [
                 {x: geo.boxX - half, y: geo.boxY - half}, {x: geo.boxX + geo.boxW - half, y: geo.boxY - half}, 
                 {x: geo.boxX - half, y: geo.boxY + geo.boxH/2 - half}, {x: geo.boxX + geo.boxW - half, y: geo.boxY + geo.boxH/2 - half}, 
@@ -1407,6 +1422,8 @@
                 imejPenuh: imejPenuhDataUrl,
                 butiran: butiran
             };
+
+            idRekodSemasa = rekodBaharu.id;
 
             if (idUntukGanti) {
                 // Kalau Mod Ganti, cari index asal dan gantikan
