@@ -1364,13 +1364,12 @@
             // === EXTRACTION IMEJ NAMA & IMEJ OMR PENUH ===
             let paddingY = geo.boxH * 0.05;
             let headerHeight = (geo.layout === '10' || geo.layout === '20') ? (geo.boxH * 0.88 * 0.3) : (geo.boxH * 0.9 * 0.2);
-            let nameLabelHeight = headerHeight * 0.3;
             
-            // Koordinat crop imej nama
-            let cropY = geo.boxY + paddingY + nameLabelHeight;
-            let cropH = headerHeight * 0.45;
-            let cropX = geo.boxX + (geo.boxW * 0.1);
-            let cropW = geo.boxW * 0.7;
+            // Koordinat crop imej nama (Dilaras kekanan sedikit dan elak terpotong)
+            let cropY = geo.boxY + paddingY + (headerHeight * 0.22); // Angkat 'kamera' sikit supaya tulisan turun ke tengah
+            let cropH = headerHeight * 0.34; // Kurangkan ketinggian supaya kotak tak tangkap perkataan "Kelas" kat bawah
+            let cropX = geo.boxX + (geo.boxW * 0.15); // Anjak ke kanan sedikit mengikut permintaan
+            let cropW = geo.boxW * 0.75; // Lebarkan sikit
 
             cropY = Math.max(0, cropY); cropX = Math.max(0, cropX);
             cropW = Math.min(cw - cropX, cropW); cropH = Math.min(ch - cropY, cropH);
