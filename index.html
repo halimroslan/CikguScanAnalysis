@@ -675,6 +675,46 @@
             let maxPeratus = (max / JUMLAH_SOALAN * 100).toFixed(1);
             let medPeratus = (median / JUMLAH_SOALAN * 100).toFixed(1);
 
+            let taburan = [
+                { label: '90 - 100', min: 90, max: 100, count: 0 },
+                { label: '80 - 89', min: 80, max: 89.999, count: 0 },
+                { label: '70 - 79', min: 70, max: 79.999, count: 0 },
+                { label: '65 - 69', min: 65, max: 69.999, count: 0 },
+                { label: '60 - 64', min: 60, max: 64.999, count: 0 },
+                { label: '55 - 59', min: 55, max: 59.999, count: 0 },
+                { label: '50 - 54', min: 50, max: 54.999, count: 0 },
+                { label: '45 - 49', min: 45, max: 49.999, count: 0 },
+                { label: '40 - 44', min: 40, max: 44.999, count: 0 },
+                { label: '0 - 39', min: 0, max: 39.999, count: 0 }
+            ];
+
+            records.forEach(r => {
+                let p = parseFloat(r.peratus);
+                for (let i = 0; i < taburan.length; i++) {
+                    if (p >= taburan[i].min && p <= taburan[i].max) {
+                        taburan[i].count++;
+                        break;
+                    }
+                }
+            });
+
+            let taburanHtml = `
+                <div class="bg-white rounded-xl shadow-sm border border-[#e5e5ea] overflow-hidden text-sm mt-4">
+                    <div class="bg-gray-50 border-b border-gray-200 p-3 text-gray-600 font-semibold text-center">
+                        Bilangan Pelajar Mengikut Peratus
+                    </div>
+                    <table class="w-full text-left border-collapse">
+            `;
+            taburan.forEach(t => {
+                taburanHtml += `
+                    <tr class="border-b border-gray-100 last:border-0 hover:bg-gray-50 transition-colors">
+                        <td class="p-3 font-semibold text-gray-600 border-r border-gray-100 text-center w-1/2">${t.label}</td>
+                        <td class="p-3 text-center font-bold text-apple-text w-1/2">${t.count}</td>
+                    </tr>
+                `;
+            });
+            taburanHtml += `</table></div>`;
+
             return `
                 <div class="bg-white rounded-xl shadow-sm border border-[#e5e5ea] overflow-hidden text-sm mb-2">
                     <table class="w-full text-left border-collapse">
@@ -692,6 +732,7 @@
                         <tr><td class="p-3 font-semibold text-gray-600 border-r border-gray-100">Median</td><td class="p-3 text-center font-bold text-apple-text border-r border-gray-100">${median}</td><td class="p-3 text-center font-bold text-apple-text">${medPeratus}%</td></tr>
                     </table>
                 </div>
+                ${taburanHtml}
             `;
         }
 
