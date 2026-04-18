@@ -823,7 +823,7 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            muatRekodLokal(); // Muat data dari localStorage
+            muatRekodLokal(); // Muat data from localStorage
             updatePageOrientation();
             janaBorangSkema();
             janaBorangCetak();
@@ -863,7 +863,7 @@
                 setTimeout(() => mulakanKamera(), 100);
             } else {
                 if(idTab !== 'keputusan') {
-                    idUntukGanti = null; // Batal mod ganti jika cikgu pergi tab lain
+                    idUntukGanti = null; // Cancel mod ganti jika guru pergi tab lain
                 }
                 hentikanKamera();
             }
@@ -1214,7 +1214,7 @@
             ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)'; ctx.lineWidth = 1;
             ctx.strokeRect(geo.boxX, geo.boxY, geo.boxW, geo.boxH);
 
-            let ts = Math.max(30, geo.boxW * 0.08), halfTs = ts / 2;
+            let ts = Math.max(20, geo.boxW * 0.05), halfTs = ts / 2;
             ctx.strokeStyle = '#0071e3'; ctx.lineWidth = 3; ctx.fillStyle = 'rgba(0, 113, 227, 0.15)'; 
             
             // Corners
@@ -1247,7 +1247,7 @@
         }
 
         function semakAutoSnap(ctx, geo) {
-            let size = Math.max(16, geo.boxW * 0.05), half = size / 2;
+            let size = Math.max(12, geo.boxW * 0.035), half = size / 2;
             let whitePoints = [ {x: geo.boxX + geo.boxW * 0.15, y: geo.boxY + geo.boxH * 0.05}, {x: geo.boxX + geo.boxW * 0.85, y: geo.boxY + geo.boxH * 0.05} ];
             let highestAvg = 0;
             for(let wp of whitePoints) {
