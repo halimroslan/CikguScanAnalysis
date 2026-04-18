@@ -1188,7 +1188,7 @@
                 lukisPanduan(ctxO, cw, ch, geo);
 
                 autoSnapCounter++;
-                if (autoSnapCounter > 3) {
+                if (autoSnapCounter > 5) {
                     autoSnapCounter = 0;
                     if (semakAutoSnap(ctxV, geo)) {
                         isScanning = true; 
@@ -1214,7 +1214,7 @@
             ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)'; ctx.lineWidth = 1;
             ctx.strokeRect(geo.boxX, geo.boxY, geo.boxW, geo.boxH);
 
-            let ts = Math.max(20, geo.boxW * 0.05), halfTs = ts / 2;
+            let ts = Math.max(16, geo.boxW * 0.035), halfTs = ts / 2;
             ctx.strokeStyle = '#0071e3'; ctx.lineWidth = 3; ctx.fillStyle = 'rgba(0, 113, 227, 0.15)'; 
             
             // Corners
@@ -1247,7 +1247,7 @@
         }
 
         function semakAutoSnap(ctx, geo) {
-            let size = Math.max(12, geo.boxW * 0.035), half = size / 2;
+            let size = Math.max(10, geo.boxW * 0.025), half = size / 2;
             let whitePoints = [ {x: geo.boxX + geo.boxW * 0.15, y: geo.boxY + geo.boxH * 0.05}, {x: geo.boxX + geo.boxW * 0.85, y: geo.boxY + geo.boxH * 0.05} ];
             let highestAvg = 0;
             for(let wp of whitePoints) {
@@ -1261,7 +1261,7 @@
             let paperBrightness = highestAvg || 200;
             if (paperBrightness < 90) return false;
 
-            let darkThreshold = paperBrightness * 0.75, requiredDarkPixelsRatio = 0.10; 
+            let darkThreshold = paperBrightness * 0.75, requiredDarkPixelsRatio = 0.15; 
             let titikUjian = [
                 {x: geo.boxX - half, y: geo.boxY - half}, {x: geo.boxX + geo.boxW - half, y: geo.boxY - half}, 
                 {x: geo.boxX - half, y: geo.boxY + geo.boxH/2 - half}, {x: geo.boxX + geo.boxW - half, y: geo.boxY + geo.boxH/2 - half}, 
@@ -1317,7 +1317,7 @@
             } else if (geo.layout === '40') {
                 let col2X = geo.innerX + (geo.innerW - geo.colW) / 2, col3X = geo.innerX + geo.innerW - geo.colW;
                 ctxDebug.beginPath(); ctxDebug.moveTo(col2X - geo.innerW*0.01, geo.innerY); ctxDebug.lineTo(col2X - geo.innerW*0.01, geo.innerY + geo.innerH);
-                ctxDebug.moveTo(col3X - geo.innerW*0.01, geo.innerY); ctxDebug.lineTo(col3X - geo.innerW*0.01, geo.innerY + geo.innerH); ctxDebug.stroke();
+                ctxDebug.moveTo(col3X - geo.innerW*0.01, geo.innerY); ctxlineTo(col3X - geo.innerW*0.01, geo.innerY + geo.innerH); ctxDebug.stroke();
             }
 
             let markah = 0;
