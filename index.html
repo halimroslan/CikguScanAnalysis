@@ -1385,8 +1385,9 @@
             if (geo.layout === '10' || geo.layout === '20') {
                 cropY = geo.boxY + paddingY + (headerHeight * 0.22); 
                 cropH = headerHeight * 0.34; 
-                cropX = geo.boxX - (geo.boxW * 0.40); // Anjakan asal 40% ke kiri
-                cropW = geo.boxW * 1.50; 
+                // Diselaraskan supaya sama zoom macam 30/40 soalan
+                cropX = geo.boxX - (geo.boxW * 0.05); // Anjak sedikit sahaja ke kiri
+                cropW = geo.boxW * 0.70; // Lebar dikecilkan supaya auto zoom in dan tak masuk marker
             } else {
                 // Layout 30 & 40: Kotak nama di bahagian bawah header
                 cropY = geo.boxY + paddingY + (headerHeight * 0.55); 
