@@ -1317,7 +1317,7 @@
             } else if (geo.layout === '40') {
                 let col2X = geo.innerX + (geo.innerW - geo.colW) / 2, col3X = geo.innerX + geo.innerW - geo.colW;
                 ctxDebug.beginPath(); ctxDebug.moveTo(col2X - geo.innerW*0.01, geo.innerY); ctxDebug.lineTo(col2X - geo.innerW*0.01, geo.innerY + geo.innerH);
-                ctxDebug.moveTo(col3X - geo.innerW*0.01, geo.innerY); ctxlineTo(col3X - geo.innerW*0.01, geo.innerY + geo.innerH); ctxDebug.stroke();
+                ctxDebug.moveTo(col3X - geo.innerW*0.01, geo.innerY); ctxDebug.lineTo(col3X - geo.innerW*0.01, geo.innerY + geo.innerH); ctxDebug.stroke();
             }
 
             let markah = 0;
