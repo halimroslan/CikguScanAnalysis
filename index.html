@@ -1360,11 +1360,11 @@
             let colCount = (JUMLAH_SOALAN <= 20) ? 4 : 2;
             if (JUMLAH_SOALAN <= 20) {
                 labelOrientasi.innerText = "A4 Portrait (4 Borang / Kertas)";
-                if(textDesc) textDesc.innerHTML = `Rekaan khas ${JUMLAH_SOALAN<=10?'10':'20'} soalan padat dan kemas.<br><span class="text-xs mt-2 block opacity-80">(Dicetak 4 borang serentak pada kertas A4 Portrait)</span>`;
+                if(textDesc) textDesc.innerHTML = `<span class="text-xs block opacity-80">(Dicetak 4 borang serentak pada kertas A4 Portrait)</span>`;
                 bekas.className = "grid grid-cols-2 gap-y-12 gap-x-8 print:gap-y-16 print:gap-x-12 w-full px-4 print:px-8";
             } else {
                 labelOrientasi.innerText = "A4 Landscape (2 Borang / Kertas)";
-                if(textDesc) textDesc.innerHTML = `Rekaan khas ${JUMLAH_SOALAN<=30?'30':'40'} soalan terpisah.<br><span class="text-xs mt-2 block opacity-80">(Dicetak sebelah-menyebelah pada kertas A4)</span>`;
+                if(textDesc) textDesc.innerHTML = `<span class="text-xs block opacity-80">(Dicetak sebelah-menyebelah pada kertas A4)</span>`;
                 bekas.className = "grid grid-cols-2 gap-16 print:gap-24 w-full px-8";
             }
             bekas.style.height = "auto"; 
