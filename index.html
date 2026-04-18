@@ -232,8 +232,8 @@
                 </div>
 
                 <div class="mt-6 flex flex-col sm:flex-row gap-3">
-                    <button onclick="mulakanKamera()" class="flex-1 bg-white border border-apple-border text-apple-text font-medium py-3.5 rounded-full shadow-sm hover:bg-gray-50 active:scale-[0.98] transition-all duration-300">
-                        Aktifkan Semula
+                    <button onclick="bukaModalKelas()" id="btn-pilih-kelas" class="flex-1 bg-white border border-apple-border text-apple-text font-medium py-3.5 rounded-full shadow-sm hover:bg-gray-50 active:scale-[0.98] transition-all duration-300 truncate px-4">
+                        Kelas: Kelas Umum
                     </button>
                     <button onclick="tangkapDanTanda(false)" class="flex-[2] bg-apple-blue text-white font-medium py-3.5 rounded-full shadow-apple-sm hover:bg-apple-blueHover active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
@@ -250,8 +250,13 @@
                 </div>
 
                 <div class="flex items-center justify-between mb-4 px-2">
-                    <h3 class="text-lg font-bold text-apple-text">Individu (<span id="jumlah-rekod">0</span>)</h3>
-                    <button onclick="padamSemuaRekod()" class="text-red-500 text-sm font-semibold hover:underline active:scale-95 transition-all">Padam Semua</button>
+                    <div class="flex items-center gap-2">
+                        <h3 class="text-lg font-bold text-apple-text">Individu (<span id="jumlah-rekod">0</span>)</h3>
+                        <select id="filter-kelas-dropdown" onchange="paparAnalisisUI()" class="text-sm bg-white border border-gray-300 rounded-md px-2 py-1 outline-none focus:ring-1 focus:ring-apple-blue font-medium text-apple-text shadow-sm">
+                            <option value="Semua">Semua Kelas</option>
+                        </select>
+                    </div>
+                    <button onclick="mintaSahkanPadamSemua()" class="text-red-500 text-sm font-semibold hover:underline active:scale-95 transition-all">Padam Semua</button>
                 </div>
 
                 <div class="apple-card bg-[#f1f1f2] border border-[#e5e5ea] rounded-[24px] overflow-hidden shadow-inner flex flex-col p-2 gap-2" id="senarai-analisis">
@@ -272,8 +277,10 @@
                         <span class="text-7xl font-bold tracking-tighter text-apple-text" id="skor-markah">0</span>
                         <span class="text-2xl font-medium text-apple-textMuted" id="skor-total">/40</span>
                     </div>
-                    <div class="mt-4 inline-block bg-apple-bg px-4 py-1.5 rounded-full">
+                    <div class="mt-4 inline-block bg-apple-bg px-4 py-1.5 rounded-full flex items-center justify-center mx-auto w-max gap-2">
                         <p class="text-base font-semibold text-apple-blue" id="skor-peratus">0%</p>
+                        <span class="text-gray-300 font-bold">|</span>
+                        <p class="text-sm font-medium text-apple-textMuted" id="skor-kelas-label">Kelas Umum</p>
                     </div>
                 </div>
 
@@ -302,13 +309,30 @@
                     <button onclick="tukarTab('imbas')" class="flex-[2] bg-apple-text text-white font-medium text-lg py-4 rounded-full shadow-apple-sm hover:bg-black hover:scale-[1.02] active:scale-[0.98] transition-all duration-300">
                         Imbas Seterusnya
                     </button>
-                    <button onclick="padamRekodSemasa()" class="w-16 flex-shrink-0 bg-red-50 border border-red-200 text-red-500 flex items-center justify-center rounded-full shadow-apple-sm hover:bg-red-100 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300" title="Padam Imbasan Ini">
+                    <button onclick="mintaSahkanPadamSemasa()" class="w-16 flex-shrink-0 bg-red-50 border border-red-200 text-red-500 flex items-center justify-center rounded-full shadow-apple-sm hover:bg-red-100 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300" title="Padam Imbasan Ini">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                     </button>
                 </div>
             </div>
 
         </main>
+    </div>
+
+    <!-- MODAL MASUKKAN KELAS -->
+    <div id="modal-kelas" class="fixed inset-0 z-[110] bg-black/60 hidden flex-col justify-center items-center transition-opacity no-print backdrop-blur-sm px-4">
+        <div class="bg-white w-full max-w-sm rounded-[24px] flex flex-col overflow-hidden shadow-2xl relative transform transition-transform border border-apple-border/30">
+            <div class="px-6 py-5 border-b border-gray-100 bg-white">
+                <h3 class="text-lg font-bold text-apple-text text-center">Tetapan Kelas</h3>
+                <p class="text-xs text-apple-textMuted text-center mt-1">Imbasan seterusnya akan disimpan ke kelas ini.</p>
+            </div>
+            <div class="p-6 bg-apple-bg">
+                <input type="text" id="input-nama-kelas" placeholder="Contoh: 5 Amanah" class="w-full p-3.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-apple-blue outline-none text-center font-medium text-apple-text">
+            </div>
+            <div class="p-4 grid grid-cols-2 gap-3 bg-white border-t border-gray-100">
+                <button onclick="tutupModalKelas()" class="bg-gray-100 text-gray-600 py-3 rounded-[14px] font-medium hover:bg-gray-200 transition-all active:scale-[0.98]">Batal</button>
+                <button onclick="simpanKelas()" class="bg-apple-blue text-white py-3 rounded-[14px] font-medium hover:bg-apple-blueHover transition-all active:scale-[0.98]">Simpan</button>
+            </div>
+        </div>
     </div>
 
     <!-- MODAL BUTIRAN REKOD -->
@@ -335,6 +359,27 @@
         </div>
     </div>
 
+    <!-- MODAL ALERT UMUM -->
+    <div id="modal-alert" class="fixed inset-0 z-[120] bg-black/60 hidden flex-col justify-center items-center transition-opacity no-print backdrop-blur-sm px-4">
+        <div class="bg-white w-full max-w-sm rounded-[24px] p-6 shadow-2xl flex flex-col text-center border border-apple-border/30">
+            <h3 class="text-lg font-bold text-apple-text mb-2" id="alert-title">Perhatian</h3>
+            <p class="text-sm text-apple-textMuted mb-6" id="alert-msg"></p>
+            <button onclick="tutupAlert()" class="bg-apple-blue text-white py-3 rounded-[14px] font-medium hover:bg-apple-blueHover transition-all active:scale-[0.98]">Selesai</button>
+        </div>
+    </div>
+
+    <!-- MODAL PENGESAHAN (CONFIRM) -->
+    <div id="modal-confirm" class="fixed inset-0 z-[120] bg-black/60 hidden flex-col justify-center items-center transition-opacity no-print backdrop-blur-sm px-4">
+        <div class="bg-white w-full max-w-sm rounded-[24px] p-6 shadow-2xl flex flex-col text-center border border-apple-border/30">
+            <h3 class="text-lg font-bold text-apple-text mb-2" id="confirm-title">Pengesahan</h3>
+            <p class="text-sm text-apple-textMuted mb-6" id="confirm-msg"></p>
+            <div class="grid grid-cols-2 gap-3">
+                <button onclick="tutupConfirm()" class="bg-gray-100 text-gray-600 py-3 rounded-[14px] font-medium hover:bg-gray-200 transition-all active:scale-[0.98]">Batal</button>
+                <button id="btn-confirm-ok" class="bg-red-500 text-white py-3 rounded-[14px] font-medium hover:bg-red-600 transition-all active:scale-[0.98]">Teruskan</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         let JUMLAH_SOALAN = 40;
         const PILIHAN = ['A', 'B', 'C', 'D'];
@@ -343,6 +388,7 @@
         let gelungKamera = null;
         let isScanning = false;
         let autoSnapCounter = 0;
+        let kelasSemasa = "Kelas Umum";
 
         // Data array untuk simpan semua rekod
         let senaraiRekodKelas = [];
@@ -365,6 +411,41 @@
         `;
 
         // ==========================================
+        // PENGURUSAN MODAL CUSTOM (Ganti Alert/Confirm)
+        // ==========================================
+        function paparAlert(title, msg) {
+            document.getElementById('alert-title').innerText = title;
+            document.getElementById('alert-msg').innerText = msg;
+            document.getElementById('modal-alert').classList.remove('hidden');
+            document.getElementById('modal-alert').classList.add('flex');
+        }
+
+        function tutupAlert() {
+            document.getElementById('modal-alert').classList.add('hidden');
+            document.getElementById('modal-alert').classList.remove('flex');
+        }
+
+        let confirmCallback = null;
+        function paparConfirm(title, msg, callback) {
+            document.getElementById('confirm-title').innerText = title;
+            document.getElementById('confirm-msg').innerText = msg;
+            confirmCallback = callback;
+            document.getElementById('modal-confirm').classList.remove('hidden');
+            document.getElementById('modal-confirm').classList.add('flex');
+        }
+
+        function tutupConfirm() {
+            document.getElementById('modal-confirm').classList.add('hidden');
+            document.getElementById('modal-confirm').classList.remove('flex');
+            confirmCallback = null;
+        }
+
+        document.getElementById('btn-confirm-ok').onclick = function() {
+            if(confirmCallback) confirmCallback();
+            tutupConfirm();
+        };
+
+        // ==========================================
         // PENGURUSAN DATA LOKAL (LocalStorage)
         // ==========================================
         function muatRekodLokal() {
@@ -384,31 +465,31 @@
             kemaskiniBadgeAnalisis();
         }
 
-        function padamSemuaRekod() {
-            if(confirm("Cikgu pasti mahu memadam semua rekod imbasan kelas ini?")) {
+        function mintaSahkanPadamSemua() {
+            paparConfirm("Padam Semua Data", "Cikgu pasti mahu memadam semua rekod imbasan dalam sistem?", () => {
                 senaraiRekodKelas = [];
                 simpanRekodLokal();
                 paparAnalisisUI();
-            }
+            });
         }
         
-        function padamRekodIndividu(event, id) {
+        function mintaSahkanPadamRekod(event, id) {
             event.stopPropagation(); // Elak trigger fungsi buka modal bila tekan padam
-            if(confirm("Cikgu pasti mahu padam rekod individu ini?")) {
+            paparConfirm("Padam Rekod Individu", "Cikgu pasti mahu padam rekod pelajar ini?", () => {
                 senaraiRekodKelas = senaraiRekodKelas.filter(r => r.id !== id);
                 simpanRekodLokal();
                 paparAnalisisUI();
-            }
+            });
         }
 
-        function padamRekodSemasa() {
+        function mintaSahkanPadamSemasa() {
             if (idRekodSemasa) {
-                if(confirm("Cikgu pasti mahu padam data imbasan ini? Data tidak akan disimpan ke Analisis.")) {
+                paparConfirm("Buang Imbasan Ini", "Data ini akan dibuang dan tidak dimasukkan ke dalam tab Analisis. Teruskan?", () => {
                     senaraiRekodKelas = senaraiRekodKelas.filter(r => r.id !== idRekodSemasa);
                     simpanRekodLokal();
                     idRekodSemasa = null;
                     tukarTab('imbas');
-                }
+                });
             }
         }
 
@@ -422,6 +503,34 @@
                     badge.classList.replace('flex', 'hidden');
                 }
             }
+        }
+
+        // ==========================================
+        // FUNGSI MODAL KELAS
+        // ==========================================
+        function bukaModalKelas() {
+            let input = document.getElementById('input-nama-kelas');
+            input.value = kelasSemasa === "Kelas Umum" ? "" : kelasSemasa;
+            document.getElementById('modal-kelas').classList.remove('hidden');
+            document.getElementById('modal-kelas').classList.add('flex');
+            setTimeout(() => input.focus(), 100);
+        }
+
+        function tutupModalKelas() {
+            document.getElementById('modal-kelas').classList.add('hidden');
+            document.getElementById('modal-kelas').classList.remove('flex');
+        }
+
+        function simpanKelas() {
+            let val = document.getElementById('input-nama-kelas').value.trim();
+            if (val !== "") {
+                kelasSemasa = val;
+            } else {
+                kelasSemasa = "Kelas Umum";
+            }
+            document.getElementById('btn-pilih-kelas').innerText = "Kelas: " + kelasSemasa;
+            tutupModalKelas();
+            paparAnalisisUI(); // Update filter
         }
 
         // ==========================================
@@ -449,8 +558,9 @@
             }).join('');
 
             document.getElementById('modal-kandungan').innerHTML = `
-                <div class="mb-6 bg-white p-4 rounded-2xl shadow-sm text-center border border-gray-100">
-                    <div class="text-4xl font-extrabold text-apple-text tracking-tight mb-1">${rekod.markah}<span class="text-xl text-gray-400 font-medium">/${rekod.jumlah}</span></div>
+                <div class="mb-6 bg-white p-4 rounded-2xl shadow-sm text-center border border-gray-100 relative">
+                    <div class="text-xs bg-gray-100 text-gray-500 px-3 py-1 rounded-full absolute top-3 left-3 font-semibold">${rekod.kelas || 'Kelas Umum'}</div>
+                    <div class="text-4xl font-extrabold text-apple-text tracking-tight mb-1 mt-4">${rekod.markah}<span class="text-xl text-gray-400 font-medium">/${rekod.jumlah}</span></div>
                     <div class="inline-block bg-apple-bg px-3 py-1 rounded-full text-apple-blue font-bold text-sm">${rekod.peratus}%</div>
                 </div>
                 
@@ -821,7 +931,7 @@
             let inputEl = document.getElementById('input-jumlah-soalan');
             let nilai = parseInt(inputEl.value);
             if (isNaN(nilai) || nilai < 1) { nilai = 1; inputEl.value = 1; }
-            else if (nilai > 40) { nilai = 40; inputEl.value = 40; alert("Maksimum 40 soalan dibenarkan."); }
+            else if (nilai > 40) { nilai = 40; inputEl.value = 40; paparAlert("Had Maksimum", "Maksimum 40 soalan dibenarkan."); }
             
             JUMLAH_SOALAN = nilai;
             let skemaBaru = Array(JUMLAH_SOALAN).fill(null);
@@ -890,28 +1000,49 @@
         }
 
         function paparAnalisisUI() {
-            document.getElementById('jumlah-rekod').innerText = senaraiRekodKelas.length;
-            const container = document.getElementById('senarai-analisis');
+            let container = document.getElementById('senarai-analisis');
+            let dropdown = document.getElementById('filter-kelas-dropdown');
+            let filterValue = dropdown ? dropdown.value : 'Semua';
+
+            // Kumpul semua kelas yang wujud dan set Dropdown
+            let kelass = [...new Set(senaraiRekodKelas.map(r => r.kelas || 'Kelas Umum'))];
+            if (dropdown) {
+                let optionsHtml = `<option value="Semua">Semua Kelas</option>`;
+                kelass.forEach(k => {
+                    optionsHtml += `<option value="${k}" ${filterValue === k ? 'selected' : ''}>${k}</option>`;
+                });
+                dropdown.innerHTML = optionsHtml;
+            }
+
+            let filteredRecords = senaraiRekodKelas;
+            if (filterValue !== 'Semua') {
+                filteredRecords = senaraiRekodKelas.filter(r => (r.kelas || 'Kelas Umum') === filterValue);
+            }
+
+            document.getElementById('jumlah-rekod').innerText = filteredRecords.length;
             
-            if (senaraiRekodKelas.length === 0) {
+            if (filteredRecords.length === 0) {
                 container.innerHTML = '<div class="text-center py-10 px-4 text-apple-textMuted font-medium"><svg class="w-12 h-12 mx-auto text-gray-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>Belum ada sebarang rekod imbasan.</div>';
                 return;
             }
 
-            container.innerHTML = senaraiRekodKelas.map(rekod => `
-                <div class="flex items-center justify-between bg-white p-2.5 rounded-[16px] shadow-sm border border-[#e5e5ea] hover:border-apple-blue hover:shadow-md transition-all relative">
-                    <div onclick="bukaModalRekod(${rekod.id})" class="flex-1 flex items-center cursor-pointer active:scale-[0.98] mr-2 overflow-hidden">
-                        <div class="w-[68%] h-[60px] bg-white rounded-[8px] overflow-hidden flex items-center justify-start border border-gray-200 shrink-0 px-1.5 py-1">
-                            ${rekod.imejNama ? `<img src="${rekod.imejNama}" class="w-full h-full object-contain object-left scale-[1.15] origin-left" style="filter: grayscale(100%) contrast(180%) brightness(110%);" />` : '<span class="text-[10px] text-gray-400 font-medium">Tiada Imej</span>'}
+            container.innerHTML = filteredRecords.map(rekod => `
+                <div class="flex flex-col bg-white p-2.5 rounded-[16px] shadow-sm border border-[#e5e5ea] hover:border-apple-blue hover:shadow-md transition-all relative">
+                    <div class="flex items-center justify-between">
+                        <div onclick="bukaModalRekod(${rekod.id})" class="flex-1 flex items-center cursor-pointer active:scale-[0.98] mr-2 overflow-hidden">
+                            <div class="w-[68%] h-[60px] bg-white rounded-[8px] overflow-hidden flex items-center justify-start border border-gray-200 shrink-0 px-1.5 py-1">
+                                ${rekod.imejNama ? `<img src="${rekod.imejNama}" class="w-full h-full object-contain object-left scale-[1.15] origin-left" style="filter: grayscale(100%) contrast(180%) brightness(110%);" />` : '<span class="text-[10px] text-gray-400 font-medium">Tiada Imej</span>'}
+                            </div>
+                            <div class="w-[32%] flex flex-col items-end justify-center pr-2 leading-tight">
+                                <div class="text-[11px] sm:text-xs text-apple-textMuted font-semibold tracking-wider">${rekod.markah} / ${rekod.jumlah}</div>
+                                <div class="text-lg sm:text-xl font-bold text-apple-text">${rekod.peratus}%</div>
+                            </div>
                         </div>
-                        <div class="w-[32%] flex flex-col items-end justify-center pr-2 leading-tight">
-                            <div class="text-[11px] sm:text-xs text-apple-textMuted font-semibold tracking-wider">${rekod.markah} / ${rekod.jumlah}</div>
-                            <div class="text-lg sm:text-xl font-bold text-apple-text">${rekod.peratus}%</div>
-                        </div>
+                        <button onclick="mintaSahkanPadamRekod(event, ${rekod.id})" class="p-2 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-full transition-all bg-gray-50/50 shrink-0" title="Padam Rekod Individu">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                        </button>
                     </div>
-                    <button onclick="padamRekodIndividu(event, ${rekod.id})" class="p-2 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-full transition-all bg-gray-50/50 shrink-0" title="Padam Rekod Individu">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                    </button>
+                    <div class="text-[10px] bg-gray-100 text-gray-500 px-2.5 py-0.5 rounded-full inline-block mt-2 font-medium w-max">Kelas: ${rekod.kelas || 'Kelas Umum'}</div>
                 </div>
             `).join('');
         }
@@ -943,7 +1074,7 @@
 
         function simpanSkema() {
             if (skemaJawapan.includes(null)) {
-                alert("Cikgu, ada soalan yang belum disetkan jawapannya.");
+                paparAlert("Skema Belum Lengkap", "Cikgu, ada soalan yang belum disetkan jawapannya.");
                 return;
             }
             let btn = document.querySelector('button[onclick="simpanSkema()"]');
@@ -1156,7 +1287,7 @@
                 await video.play();
                 renderFrameKamera();
             } catch (err) {
-                alert("Kamera tidak dapat diakses. Sila benarkan akses kamera.");
+                paparAlert("Kamera Gagal", "Kamera tidak dapat diakses. Sila benarkan tetapan privasi pelayar untuk mengakses kamera.");
             }
         }
 
@@ -1301,7 +1432,7 @@
         // ==========================================
         function tangkapDanTanda(dariAutoSnap = false) {
             if (skemaJawapan.includes(null)) {
-                alert("Harap maklum, skema jawapan belum lengkap disetkan.");
+                paparAlert("Skema Belum Lengkap", "Harap maklum, skema jawapan belum lengkap disetkan. Sila lengkapkan sebelum mengimbas.");
                 isScanning = false;
                 return;
             }
@@ -1437,7 +1568,8 @@
                 peratus: parseFloat(peratus.toFixed(1)),
                 imejNama: imejNamaDataUrl,
                 imejPenuh: imejPenuhDataUrl,
-                butiran: butiran
+                butiran: butiran,
+                kelas: kelasSemasa
             };
 
             idRekodSemasa = rekodBaharu.id;
@@ -1467,6 +1599,7 @@
             document.getElementById('skor-markah').innerText = markah;
             document.getElementById('skor-total').innerText = `/${JUMLAH_SOALAN}`;
             document.getElementById('skor-peratus').innerText = `${peratus.toFixed(1)}%`;
+            document.getElementById('skor-kelas-label').innerText = kelasSemasa;
 
             let senaraiHtml = butiran.map(b => {
                 let ikon = b.betul ? 
